@@ -7,7 +7,7 @@ LABEL name="testwebserver" \
       summary="Example Starter app" \
       description="Starter app will do ....."
 
-COPY licenses /licenses
+# COPY licenses /licenses
 
 RUN  yum -y update-minimal
 RUN yum clean all
