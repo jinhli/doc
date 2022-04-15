@@ -1,4 +1,5 @@
-FROM registry.access.redhat.com/ubi8:latest
+#FROM registry.access.redhat.com/ubi8:latest
+FROM quay.io/jinhli0/ubi8-test:v0.1
 LABEL name="testwebserver" \
       vendor="Example Inc" \
       version="1.0" \
