@@ -1,4 +1,5 @@
 FROM registry.redhat.io/ubi8/ubi:latest
+USER root
 COPY ./etc-pki-entitlement/entitlement /etc/pki/entitlement
 # Copy subscription manager configurations
 COPY ./rhsm-conf /etc/rhsm
