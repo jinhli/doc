@@ -5,6 +5,6 @@ COPY ./etc-pki-entitlement/entitlement /etc/pki/entitlement
 COPY ./rhsm-conf /etc/rhsm
 COPY ./rhsm-ca /etc/rhsm/ca
 #RUN dnf search kernel-devel --showduplicates && \
-        dnf install -y kernel-devel
+#       dnf install -y kernel-devel
 #:wqRUN rm -rf /etc/pki/entitlement && \
-    rm -rf /etc/rhsm
+#    rm -rf /etc/rhsm
