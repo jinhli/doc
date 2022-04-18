@@ -1,15 +1,21 @@
 FROM registry.access.redhat.com/ubi8:latest
-#FROM quay.io/jinhli0/ubi8-test:v0.1
-LABEL name="testwebserver" \
-      vendor="Example Inc" \
-      version="1.0" \
-      release="1" \
-      run='docker run -d -p 8080:80 --name=testweb testwebserver' \
-      summary="Example Starter app" \
-      description="Starter app will do ....."
-
-# COPY licenses /licenses
-
-RUN  yum -y update-minimal
-RUN yum clean all
-USER test_user
+USER root
+# Copy entitlements
+COPY ./etc-pki-entitlement /etc/pki/entitlement
+# Copy subscription manager configurations
+COPY ./rhsm-conf /etc/rhsm
+COPY ./rhsm-ca /etc/rhsm/ca
+# Delete /etc/rhsm-host to use entitlements from the build container
+RUN rm /etc/rhsm-host && \
+    # Initialize /etc/yum.repos.d/redhat.repo
+    # See https://access.redhat.com/solutions/1443553
+    yum repolist --disablerepo=* && \
+    subscription-manager repos --enable <enabled-repo> && \
+    yum -y update && \
+    yum -y install <rpms> && \
+    # Remove entitlements and Subscription Manager configs
+    rm -rf /etc/pki/entitlement && \
+    rm -rf /etc/rhsm
+# OpenShift requires images to run as non-root by default
+USER 1001
+ENTRYPOINT ["/bin/bash"]
